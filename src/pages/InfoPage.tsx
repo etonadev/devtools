@@ -1,0 +1,15 @@
+import { Mail, ShieldCheck, Wrench } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { PRODUCT_NAME } from '../app/config'
+import { Seo } from '../components/common/Seo'
+
+const content = {
+  about: { title: `About ${PRODUCT_NAME}`, description: 'Why DevTools exists and how its local-first developer tools work.', icon: Wrench, body: <><p>{PRODUCT_NAME} is a focused collection of professional tools for developers who need to inspect and reshape structured documents quickly.</p><h2>Built around the document</h2><p>Every workbench keeps the original input separate from generated output, reports failures without destroying your work, and uses established open-source parsers and formatters.</p><h2>Designed to grow carefully</h2><p>The shared editor and tool registry make it straightforward to add new utilities while keeping navigation, file handling, themes, and accessibility consistent.</p></> },
+  privacy: { title: 'Privacy', description: 'How DevTools processes documents privately in your browser.', icon: ShieldCheck, body: <><p>Your code and documents are processed locally in your browser. DevTools has no document backend, account system, database, document analytics, or content logging.</p><h2>What stays on your device</h2><p>Editor contents, uploaded files, filenames, formatted output, validation details, tokens, and queries remain in the active browser tab. Document contents are never included in analytics events or stored in local storage.</p><h2>Optional analytics</h2><p>When configured by the site operator, Cloudflare Web Analytics measures anonymous traffic and page performance, while Google Analytics 4 receives page views and limited tool-action events. Events contain only the tool name and whether the action succeeded or failed. Neither provider loads until you allow analytics.</p><h2>What is saved</h2><p>Only non-sensitive theme and analytics-consent preferences may be saved locally. Use “Analytics preferences” in the footer to change your choice. Downloaded files go wherever your browser normally saves downloads.</p></> },
+  contact: { title: 'Contact', description: 'How to share feedback about DevTools.', icon: Mail, body: <><p>{PRODUCT_NAME} is currently a configurable, self-hosted project. Add your project support address before publishing if you want to receive direct feedback.</p><h2>Before reporting a formatting issue</h2><p>Include the tool, chosen format options, browser version, and a minimal non-sensitive example. Never send secrets or production credentials.</p><p><Link className="text-link" to="/">Return to the tool directory →</Link></p></> },
+}
+
+export function InfoPage({ page }: { page: keyof typeof content }) {
+  const item = content[page]
+  return <main className="info-page"><Seo title={`${item.title} | ${PRODUCT_NAME}`} description={item.description} path={`/${page}`} /><div className="info-icon"><item.icon /></div><p className="eyebrow">{PRODUCT_NAME}</p><h1>{item.title}</h1><div className="info-copy">{item.body}</div></main>
+}
