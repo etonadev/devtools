@@ -11,6 +11,7 @@ import { EditorToolbar } from '../../components/toolbar/EditorToolbar'
 import { copyText } from '../../services/clipboard'
 import { downloadText, readLocalFile } from '../../services/files'
 import { analyticsService } from '../../services/analytics/AnalyticsService'
+import seoMetadata from '../../app/seo.json'
 import type { FormatOptions, Indent, Notice, ProcessResult, ToolId, ValidationResult } from '../../types/tools'
 
 async function formatTool(id: ToolId, input: string, options: FormatOptions): Promise<ProcessResult> {
@@ -99,7 +100,7 @@ export function ToolPage({ id }: { id: ToolId }) {
   const statusIcon = notice.kind === 'success' ? <CheckCircle2 size={17} /> : notice.kind === 'error' ? <AlertCircle size={17} /> : <Info size={17} />
 
   return <main className={fullscreen ? 'tool-page fullscreen' : 'tool-page'}>
-    <Seo title={`${tool.name} Online | DevTools`} description={tool.description} path={tool.path} />
+    <Seo title={seoMetadata.pages[id].title} description={seoMetadata.pages[id].description} path={seoMetadata.pages[id].path} />
     <section className="tool-heading">
       <div><p className="eyebrow"><tool.icon size={14} /> Developer workbench</p><h1>{tool.name}</h1><p>{tool.intro}</p></div>
       <div className="privacy-pill"><LockKeyhole size={16} /><span><strong>Local by default</strong>Your code and documents are processed locally in your browser.</span></div>

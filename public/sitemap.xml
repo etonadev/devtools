@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>{{SITE_URL}}/</loc></url>
-  <url><loc>{{SITE_URL}}/json-formatter</loc></url>
-  <url><loc>{{SITE_URL}}/yaml-formatter</loc></url>
-  <url><loc>{{SITE_URL}}/xml-formatter</loc></url>
-  <url><loc>{{SITE_URL}}/sql-formatter</loc></url>
-  <url><loc>{{SITE_URL}}/markdown-editor</loc></url>
-  <url><loc>{{SITE_URL}}/about</loc></url>
-  <url><loc>{{SITE_URL}}/privacy</loc></url>
-  <url><loc>{{SITE_URL}}/contact</loc></url>
+  <url><loc>https://devmastertools.com/</loc></url>
+  <url><loc>https://devmastertools.com/json-formatter</loc></url>
+  <url><loc>https://devmastertools.com/yaml-formatter</loc></url>
+  <url><loc>https://devmastertools.com/xml-formatter</loc></url>
+  <url><loc>https://devmastertools.com/sql-formatter</loc></url>
+  <url><loc>https://devmastertools.com/markdown-editor</loc></url>
+  <url><loc>https://devmastertools.com/about</loc></url>
+  <url><loc>https://devmastertools.com/privacy</loc></url>
+  <url><loc>https://devmastertools.com/contact</loc></url>
 </urlset>

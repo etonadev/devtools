@@ -1,6 +1,6 @@
-# DevTools
+# DevMaster Tools
 
-DevTools is a privacy-focused browser workbench for JSON, YAML, XML, SQL, and Markdown. It is built as a static React application: documents are parsed, formatted, validated, previewed, and downloaded without a backend or document-content telemetry.
+DevMaster Tools is a privacy-focused browser workbench for JSON, YAML, XML, SQL, and Markdown. It is built as a static React application: documents are parsed, formatted, validated, previewed, and downloaded without a backend or document-content telemetry.
 
 ## Technology
 
@@ -36,7 +36,14 @@ The production output is written to `dist`. The build also emits route-specific 
 
 ## Configuration
 
-Copy `.env.example` to `.env.production` only when deploying. Set `VITE_SITE_URL` to the final HTTPS origin so canonical URLs, `robots.txt`, and `sitemap.xml` are correct. `VITE_PRODUCT_NAME` is an optional brand override.
+Copy `.env.example` to `.env.production` only when deploying. The production values are:
+
+```text
+VITE_SITE_URL=https://devmastertools.com
+VITE_PRODUCT_NAME=DevMaster Tools
+```
+
+Both Vite and `scripts/prerender.mjs` read these build-time values. The prerenderer also defaults to the official production values, so it never emits `example.com` or the Pages hostname when a variable is missing.
 
 Analytics starts automatically in production when at least one provider identifier is configured. Local development remains analytics-free by default because production mode is required.
 
@@ -80,7 +87,7 @@ See Cloudflare's current [Web Analytics setup guide](https://developers.cloudfla
 
 1. In Google Analytics, create or select a GA4 property.
 2. Go to **Admin → Data streams → Web**, create/select the production web stream, and copy its `G-...` Measurement ID.
-3. In the stream's **Enhanced measurement → Page views → advanced settings**, disable **Page changes based on browser history events**. DevTools sends one manual page view for each React route, so leaving automatic history measurement enabled would duplicate views.
+3. In the stream's **Enhanced measurement → Page views → advanced settings**, disable **Page changes based on browser history events**. DevMaster Tools sends one manual page view for each React route, so leaving automatic history measurement enabled would duplicate views.
 4. Add the production environment variables:
 
 ```text
@@ -117,14 +124,22 @@ public/                Favicon, sitemap, robots, and Pages fallback
    - Node version: `22`
 4. Under **Settings → Environment variables**, add:
    - `NODE_VERSION=22`
-   - `VITE_SITE_URL=https://your-project.pages.dev` (or the confirmed custom domain)
+   - `VITE_SITE_URL=https://devmastertools.com`
+   - `VITE_PRODUCT_NAME=DevMaster Tools`
    - `VITE_GA4_MEASUREMENT_ID` and/or `VITE_CLOUDFLARE_ANALYTICS_TOKEN`
 5. Select **Save and Deploy**. `public/_redirects` keeps direct visits to client-side routes working, while the build also creates concrete HTML entry files for known routes.
-6. After Cloudflare assigns the final `*.pages.dev` hostname, correct `VITE_SITE_URL` if necessary and redeploy so canonical and sitemap URLs use the final origin.
+6. After deployment, inspect the homepage and route HTML to confirm the production canonical domain.
 
 Cloudflare's [Git integration guide](https://developers.cloudflare.com/pages/get-started/git-integration/) documents the current dashboard flow. A Git-integrated Pages project cannot later be converted into a Direct Upload project; create a separate Pages project if you need to change deployment modes.
 
-Cloudflare publishes the project to a `pages.dev` address, not directly to `cloudflare.com`. To use your own hostname, open the Pages project, choose **Custom domains → Set up a custom domain**, and follow Cloudflare's DNS instructions. Every push to the selected production branch triggers a new production deployment; other branches receive preview deployments.
+Cloudflare also publishes the project at `devtools-5sj.pages.dev`. To prevent that hostname competing with the official domain, create an account-level **Bulk Redirect** from `devtools-5sj.pages.dev` to `https://devmastertools.com` with status `301`, **Subpath matching**, **Preserve path suffix**, and **Preserve query string** enabled. Domain-level redirects cannot be expressed safely in the repository's `_redirects` file, so this is a manual dashboard action.
+
+### Google Search Console
+
+1. Add a **Domain property** for `devmastertools.com`.
+2. Copy Google's verification value into a DNS TXT record in Cloudflare DNS. Do not add an invented verification tag to the application.
+3. After ownership is verified, open **Sitemaps** and submit `https://devmastertools.com/sitemap.xml`.
+4. Use URL Inspection after deployment to confirm Google sees the canonical production URLs. Sitemap submission assists discovery but does not guarantee indexing.
 
 The application is fully static and does not require Workers, a database, paid services, or a running Node server.
 
@@ -133,7 +148,7 @@ The application is fully static and does not require Workers, a database, paid s
 1. Add its metadata and example to `src/app/config.ts`.
 2. Put parser/formatter logic in `src/services/formatting` with typed results and independent tests.
 3. Add the processor to `features/shared/ToolPage.tsx`. Reuse the shared toolbar, file safeguards, editor, status bar, and content patterns.
-4. Add a lazy route in `src/app/routes.tsx`, a route metadata entry in `scripts/prerender.mjs`, and its URL in `public/sitemap.xml`.
+4. Add a lazy route in `src/app/routes.tsx` and a metadata entry in `src/app/seo.json`; the prerenderer derives route HTML and the sitemap from that metadata.
 
 ## Known limitations
 
@@ -141,4 +156,4 @@ The application is fully static and does not require Workers, a database, paid s
 - XML formatting and minification are refused for mixed-content documents when whitespace changes could alter meaning.
 - YAML indentation always uses spaces because indentation tabs are invalid YAML; choosing tabs falls back to two spaces with an explicit notice.
 - Browser parsing and formatting are limited to 5 MB per uploaded file to reduce UI stalls. Very complex documents can still take noticeable time on low-powered devices.
-- Canonical URLs and sitemap URLs use the configured production origin; the example origin is used only if a production build omits `VITE_SITE_URL`.
+- Canonical URLs and sitemap URLs default to `https://devmastertools.com` and can be set explicitly with `VITE_SITE_URL` at build time.

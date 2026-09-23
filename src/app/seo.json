@@ -1,0 +1,75 @@
+{
+  "site": {
+    "name": "DevMaster Tools",
+    "url": "https://devmastertools.com",
+    "imagePath": "/images/devmastertools-og.png",
+    "imageAlt": "DevMaster Tools — Free Online Developer Tools",
+    "locale": "en_US",
+    "language": "en"
+  },
+  "pages": {
+    "home": {
+      "path": "/",
+      "title": "DevMaster Tools — Free Online Developer Tools",
+      "description": "Free online JSON, YAML, XML, SQL and Markdown tools. Format, validate and edit your documents securely in your browser. No sign-up required.",
+      "heading": "Shape messy data into clean, trusted output.",
+      "kind": "website"
+    },
+    "json": {
+      "path": "/json-formatter",
+      "title": "JSON Formatter & Editor Online | DevMaster Tools",
+      "description": "Format, validate, edit, minify and inspect JSON securely in your browser with precision-safe handling and an expandable tree view.",
+      "heading": "JSON Formatter & Editor",
+      "kind": "application"
+    },
+    "yaml": {
+      "path": "/yaml-formatter",
+      "title": "YAML Formatter & Editor Online | DevMaster Tools",
+      "description": "Format, validate and edit YAML securely in your browser while preserving comments, anchors and aliases.",
+      "heading": "YAML Formatter & Editor",
+      "kind": "application"
+    },
+    "xml": {
+      "path": "/xml-formatter",
+      "title": "XML Formatter & Editor Online | DevMaster Tools",
+      "description": "Format, validate, edit and safely minify XML in your browser with namespace, CDATA and comment support.",
+      "heading": "XML Formatter & Editor",
+      "kind": "application"
+    },
+    "sql": {
+      "path": "/sql-formatter",
+      "title": "SQL Formatter Online | DevMaster Tools",
+      "description": "Format SQL queries in your browser with dialect and keyword-case options for MySQL, PostgreSQL, SQL Server, SQLite and more.",
+      "heading": "SQL Formatter",
+      "kind": "application"
+    },
+    "markdown": {
+      "path": "/markdown-editor",
+      "title": "Markdown Editor & Live Preview | DevMaster Tools",
+      "description": "Edit and format GitHub Flavored Markdown with a secure live preview for tables, task lists and code blocks.",
+      "heading": "Markdown Editor & Preview",
+      "kind": "application"
+    },
+    "about": {
+      "path": "/about",
+      "title": "About DevMaster Tools",
+      "description": "Learn about DevMaster Tools and its private, browser-based utilities for working with JSON, YAML, XML, SQL and Markdown.",
+      "heading": "About DevMaster Tools",
+      "kind": "page"
+    },
+    "privacy": {
+      "path": "/privacy",
+      "title": "Privacy | DevMaster Tools",
+      "description": "Learn how DevMaster Tools keeps editor contents, uploaded files, queries and other document data in your browser.",
+      "heading": "Privacy",
+      "kind": "page"
+    },
+    "contact": {
+      "path": "/contact",
+      "title": "Contact | DevMaster Tools",
+      "description": "Contact DevMaster Tools with questions, suggestions or reports about the online developer utilities.",
+      "heading": "Get in Touch",
+      "kind": "page"
+    }
+  }
+}
