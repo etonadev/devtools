@@ -3,6 +3,7 @@ import type { ToolDefinition } from '../types/tools'
 
 export const PRODUCT_NAME = import.meta.env.VITE_PRODUCT_NAME || 'DevTools'
 export const SITE_URL = import.meta.env.VITE_SITE_URL?.replace(/\/$/, '') || ''
+export const SUPPORT_EMAIL = 'etona.dev@gmail.com'
 export const MAX_FILE_SIZE = 5 * 1024 * 1024
 
 export const tools: ToolDefinition[] = [

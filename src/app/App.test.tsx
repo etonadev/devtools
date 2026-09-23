@@ -18,10 +18,10 @@ describe('application UI', () => {
     fireEvent.click(screen.getByRole('button', { name: /clear/i }))
     expect(input).toHaveValue('')
   })
-  it('cycles the theme preference', async () => {
+  it('toggles and persists an explicit light or dark theme', async () => {
     render(<MemoryRouter><App /></MemoryRouter>)
-    const button = await screen.findByRole('button', { name: /change theme/i })
+    const button = await screen.findByRole('button', { name: /switch to/i })
     fireEvent.click(button)
-    expect(localStorage.getItem('devtools-theme')).toBeTruthy()
+    expect(localStorage.getItem('devtools-theme')).toMatch(/^(light|dark)$/)
   })
 })

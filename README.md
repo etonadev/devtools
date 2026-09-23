@@ -38,7 +38,7 @@ The production output is written to `dist`. The build also emits route-specific 
 
 Copy `.env.example` to `.env.production` only when deploying. Set `VITE_SITE_URL` to the final HTTPS origin so canonical URLs, `robots.txt`, and `sitemap.xml` are correct. `VITE_PRODUCT_NAME` is an optional brand override.
 
-Analytics is opt-in and disabled in local development. Production collection requires `VITE_ANALYTICS_ENABLED=true`, at least one provider identifier, and visitor consent.
+Analytics starts automatically in production when at least one provider identifier is configured. Local development remains analytics-free by default because production mode is required.
 
 ## Analytics and privacy
 
@@ -56,23 +56,25 @@ The following GA4 events are implemented:
 
 Each event contains only `tool_name` and `action_result` (`success` or `error`). Cloudflare Web Analytics is used for aggregate traffic, SPA navigation, and real-user performance metrics; Cloudflare does not currently accept custom events.
 
-Visitors see an accessible consent prompt before either provider is loaded. Their choice is stored locally under `devtools-analytics-consent` and can be changed using **Analytics preferences** in the footer. Revoking a choice reloads the application so previously attached provider code is removed cleanly. This implementation is a technical consent mechanism, not a substitute for jurisdiction-specific legal review.
+Google analytics storage and all advertising-related storage and signals remain denied. The application uses no document storage, session storage, or IndexedDB; local storage contains only `devtools-theme` after a visitor makes a manual theme choice. The Markdown preview blocks raw HTML, scripts, and remote images so pasted Markdown cannot automatically contact an image host.
 
 ### Configure Cloudflare Web Analytics
 
-Use manual beacon configuration so the application can load Cloudflare only after consent. Do not also enable the Pages one-click automatic injection; doing both would bypass the application consent gate and duplicate measurement.
+Use manual beacon configuration so the application owns a single Cloudflare beacon. Do not also enable the Pages one-click automatic injection because that would duplicate measurement. This dashboard setting cannot be verified from the repository and must be checked manually for the production Pages project.
 
 1. In the Cloudflare dashboard, open **Web Analytics** and select **Add a site**.
 2. Enter the final Pages or custom-domain hostname.
-3. Open **Manage site** and copy the token from the generated beacon snippet.
-4. Add the token to the production environment:
+3. Open **Manage site**, choose **Enable with JS Snippet installation** (manual setup), and copy the token from the generated beacon snippet.
+4. For a Pages project, do not enable the separate one-click option under **Workers & Pages → your project → Metrics → Web Analytics**. If it was enabled previously, confirm in **Web Analytics → Manage site** that automatic injection is no longer selected.
+5. Add the token to the production environment:
 
 ```text
-VITE_ANALYTICS_ENABLED=true
 VITE_CLOUDFLARE_ANALYTICS_TOKEN=your-public-beacon-token
 ```
 
 The service loads Cloudflare's official beacon with SPA measurement enabled. Cloudflare automatically observes History API navigation and reports page performance and Core Web Vitals. The token is a public site identifier, not a secret.
+
+See Cloudflare's current [Web Analytics setup guide](https://developers.cloudflare.com/web-analytics/get-started/) for the dashboard options.
 
 ### Configure Google Analytics 4
 
@@ -82,11 +84,10 @@ The service loads Cloudflare's official beacon with SPA measurement enabled. Clo
 4. Add the production environment variables:
 
 ```text
-VITE_ANALYTICS_ENABLED=true
 VITE_GA4_MEASUREMENT_ID=G-XXXXXXXXXX
 ```
 
-The Google tag is configured with `send_page_view: false`; `AnalyticsManager` sends sanitized page views containing only origin and pathname. Advertising storage, signals, user data, and personalization remain denied. Verify navigation and custom events in GA4 Realtime or DebugView after deploying.
+The Google tag is configured with `send_page_view: false`; `AnalyticsManager` sends sanitized page views containing only origin and pathname. Analytics and advertising storage, advertising signals, user data, and personalization remain denied. Google therefore receives cookieless measurement requests rather than a stored `_ga` client identifier. Verify navigation and custom events in GA4 Realtime or DebugView after deploying.
 
 ## Project structure
 
@@ -117,10 +118,11 @@ public/                Favicon, sitemap, robots, and Pages fallback
 4. Under **Settings → Environment variables**, add:
    - `NODE_VERSION=22`
    - `VITE_SITE_URL=https://your-project.pages.dev` (or the confirmed custom domain)
-   - `VITE_ANALYTICS_ENABLED=true` when analytics should be available
    - `VITE_GA4_MEASUREMENT_ID` and/or `VITE_CLOUDFLARE_ANALYTICS_TOKEN`
 5. Select **Save and Deploy**. `public/_redirects` keeps direct visits to client-side routes working, while the build also creates concrete HTML entry files for known routes.
 6. After Cloudflare assigns the final `*.pages.dev` hostname, correct `VITE_SITE_URL` if necessary and redeploy so canonical and sitemap URLs use the final origin.
+
+Cloudflare's [Git integration guide](https://developers.cloudflare.com/pages/get-started/git-integration/) documents the current dashboard flow. A Git-integrated Pages project cannot later be converted into a Direct Upload project; create a separate Pages project if you need to change deployment modes.
 
 Cloudflare publishes the project to a `pages.dev` address, not directly to `cloudflare.com`. To use your own hostname, open the Pages project, choose **Custom domains → Set up a custom domain**, and follow Cloudflare's DNS instructions. Every push to the selected production branch triggers a new production deployment; other branches receive preview deployments.
 

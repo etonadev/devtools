@@ -14,4 +14,10 @@ describe('MarkdownPreview', () => {
     expect(container.querySelector('script')).not.toBeInTheDocument()
     expect(container.querySelector('img')).not.toBeInTheDocument()
   })
+
+  it('does not request remote Markdown images', () => {
+    const { container } = render(<MarkdownPreview source={'![Private diagram](https://example.com/private.png)'} />)
+    expect(container.querySelector('img')).not.toBeInTheDocument()
+    expect(screen.getByRole('img', { name: 'Private diagram' })).toHaveTextContent('Private diagram')
+  })
 })

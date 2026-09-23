@@ -1,4 +1,3 @@
-export type AnalyticsConsent = 'unknown' | 'granted' | 'denied'
 export type AnalyticsResult = 'success' | 'error'
 export type ToolAnalyticsAction =
   | 'tool_opened'
@@ -10,7 +9,6 @@ export type ToolAnalyticsAction =
   | 'copy_to_clipboard'
 
 export interface AnalyticsConfig {
-  enabled: boolean
   production: boolean
   ga4MeasurementId?: string
   cloudflareToken?: string
@@ -23,62 +21,25 @@ declare global {
   }
 }
 
-const CONSENT_KEY = 'devtools-analytics-consent'
 const GA_SCRIPT_ID = 'devtools-ga4'
 const CF_SCRIPT_ID = 'devtools-cloudflare-analytics'
 
 function defaultConfig(): AnalyticsConfig {
   return {
-    enabled: import.meta.env.VITE_ANALYTICS_ENABLED === 'true',
     production: import.meta.env.PROD,
     ga4MeasurementId: import.meta.env.VITE_GA4_MEASUREMENT_ID,
     cloudflareToken: import.meta.env.VITE_CLOUDFLARE_ANALYTICS_TOKEN,
   }
 }
 
-function safeStoredConsent(): AnalyticsConsent {
-  try {
-    const stored = localStorage.getItem(CONSENT_KEY)
-    return stored === 'granted' || stored === 'denied' ? stored : 'unknown'
-  } catch {
-    return 'unknown'
-  }
-}
-
 export class AnalyticsService {
-  private consent: AnalyticsConsent
   private initialized = false
   private lastPagePath = ''
-  private listeners = new Set<(consent: AnalyticsConsent) => void>()
 
-  constructor(private readonly config: AnalyticsConfig = defaultConfig()) {
-    this.consent = safeStoredConsent()
-  }
-
-  getConsent(): AnalyticsConsent { return this.consent }
+  constructor(private readonly config: AnalyticsConfig = defaultConfig()) {}
 
   isConfigured(): boolean {
-    return this.config.production && this.config.enabled && Boolean(this.validGaId() || this.config.cloudflareToken)
-  }
-
-  subscribe(listener: (consent: AnalyticsConsent) => void): () => void {
-    this.listeners.add(listener)
-    return () => this.listeners.delete(listener)
-  }
-
-  setConsent(consent: Exclude<AnalyticsConsent, 'unknown'>): void {
-    this.consent = consent
-    try { localStorage.setItem(CONSENT_KEY, consent) } catch { /* Preference storage is optional. */ }
-    if (consent === 'granted') this.initialize()
-    else this.disableGoogleConsent()
-    this.listeners.forEach((listener) => listener(consent))
-  }
-
-  resetConsent(): void {
-    this.consent = 'unknown'
-    try { localStorage.removeItem(CONSENT_KEY) } catch { /* Preference storage is optional. */ }
-    this.disableGoogleConsent()
-    this.listeners.forEach((listener) => listener('unknown'))
+    return this.config.production && Boolean(this.validGaId() || this.config.cloudflareToken?.trim())
   }
 
   initialize(): void {
@@ -125,7 +86,7 @@ export class AnalyticsService {
   }
 
   private canCollect(): boolean {
-    return this.isConfigured() && this.consent === 'granted'
+    return this.isConfigured()
   }
 
   private validGaId(): string | undefined {
@@ -150,9 +111,6 @@ export class AnalyticsService {
     window.gtag!('consent', 'default', {
       analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied',
     })
-    window.gtag!('consent', 'update', {
-      analytics_storage: 'granted', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied',
-    })
     window.gtag!('js', new Date())
     window.gtag!('config', measurementId, {
       send_page_view: false,
@@ -169,7 +127,8 @@ export class AnalyticsService {
 
   private initializeCloudflareAnalytics(): void {
     const token = this.config.cloudflareToken?.trim()
-    if (!token || document.getElementById(CF_SCRIPT_ID)) return
+    const existingBeacon = document.querySelector('script[src*="static.cloudflareinsights.com/beacon.min.js"]')
+    if (!token || document.getElementById(CF_SCRIPT_ID) || existingBeacon) return
     const script = document.createElement('script')
     script.id = CF_SCRIPT_ID
     script.type = 'module'
@@ -179,16 +138,6 @@ export class AnalyticsService {
     document.body.appendChild(script)
   }
 
-  private disableGoogleConsent(): void {
-    try {
-      if (!window.gtag) return
-      window.gtag('consent', 'update', {
-        analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied',
-      })
-    } catch {
-      // Consent changes must never break the UI.
-    }
-  }
 }
 
 export const analyticsService = new AnalyticsService()
