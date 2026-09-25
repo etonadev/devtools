@@ -2,6 +2,8 @@ import { useEffect } from 'react'
 import { PRODUCT_NAME, SITE_URL } from '../../app/config'
 import seoMetadata from '../../app/seo.json'
 
+const freeOffer = { '@type': 'Offer', price: '0', priceCurrency: 'USD' }
+
 interface SeoProps { title: string; description: string; path: string }
 
 function upsertMeta(selector: string, attributes: Record<string, string>) {
@@ -22,12 +24,12 @@ function structuredData(title: string, description: string, path: string) {
       '@context': 'https://schema.org',
       '@graph': [
         { '@type': 'WebSite', '@id': websiteId, name: PRODUCT_NAME, url, description, inLanguage: 'en' },
-        { '@type': 'WebApplication', name: PRODUCT_NAME, url, description, applicationCategory: 'DeveloperApplication', operatingSystem: 'Any', browserRequirements: 'Requires a modern web browser', isAccessibleForFree: true, isPartOf: { '@id': websiteId } },
+        { '@type': 'WebApplication', name: PRODUCT_NAME, url, description, applicationCategory: 'DeveloperApplication', operatingSystem: 'Any', browserRequirements: 'Requires a modern web browser', isAccessibleForFree: true, offers: freeOffer, isPartOf: { '@id': websiteId } },
       ],
     }
   }
   return path.endsWith('-formatter') || path === '/markdown-editor'
-    ? { '@context': 'https://schema.org', '@type': 'WebApplication', name: title.split(' | ')[0], url, description, applicationCategory: 'DeveloperApplication', operatingSystem: 'Any', browserRequirements: 'Requires a modern web browser', isAccessibleForFree: true, isPartOf: { '@id': websiteId } }
+    ? { '@context': 'https://schema.org', '@type': 'WebApplication', name: title.split(' | ')[0], url, description, applicationCategory: 'DeveloperApplication', operatingSystem: 'Any', browserRequirements: 'Requires a modern web browser', isAccessibleForFree: true, offers: freeOffer, isPartOf: { '@id': websiteId } }
     : { '@context': 'https://schema.org', '@type': 'WebPage', name: title, url, description, inLanguage: 'en', isPartOf: { '@id': websiteId } }
 }
 

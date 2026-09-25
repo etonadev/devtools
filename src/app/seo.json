@@ -17,38 +17,98 @@
     },
     "json": {
       "path": "/json-formatter",
-      "title": "JSON Formatter & Editor Online | DevMaster Tools",
-      "description": "Format, validate, edit, minify and inspect JSON securely in your browser with precision-safe handling and an expandable tree view.",
+      "title": "JSON Formatter, Editor & Viewer Online | DevMaster Tools",
+      "description": "Format, edit, validate, minify and view JSON online. Free browser-based JSON editor with syntax highlighting and tree view. No sign-up required.",
       "heading": "JSON Formatter & Editor",
-      "kind": "application"
+      "kind": "application",
+      "content": {
+        "about": "Format, edit, validate, minify and inspect JSON for APIs, configuration files and structured data. The syntax-highlighted editor preserves large integers, while the expandable tree view makes nested objects and arrays easier to explore. Processing stays in your browser.",
+        "features": ["Precision-safe JSON formatting", "Expandable JSON tree viewer", "Line-aware syntax validation", "JSON minification and downloads"],
+        "instructions": ["Paste JSON or upload a .json file.", "Choose indentation, then format, minify or validate the document.", "Inspect nested data in Tree view, then copy or download the result."],
+        "faqs": [
+          { "question": "What is a JSON formatter?", "answer": "A JSON formatter adds consistent indentation and line breaks so compact or irregular JSON is easier to read and edit." },
+          { "question": "Can I validate JSON syntax?", "answer": "Yes. Validate reports malformed JSON with line and column details when available." },
+          { "question": "Can I view JSON as a tree?", "answer": "Yes. After formatting or validating valid JSON, switch to Tree view to explore nested objects and arrays." },
+          { "question": "Does formatting change large integers?", "answer": "No. DevMaster Tools uses a lossless JSON number representation so integers beyond JavaScript's safe range are not silently rounded." },
+          { "question": "Is my JSON uploaded to a server?", "answer": "No. Parsing, validation and formatting happen entirely in your browser." }
+        ]
+      }
     },
     "yaml": {
       "path": "/yaml-formatter",
       "title": "YAML Formatter & Editor Online | DevMaster Tools",
-      "description": "Format, validate and edit YAML securely in your browser while preserving comments, anchors and aliases.",
+      "description": "Format, edit, validate and view YAML online while preserving comments, anchors and aliases. Free browser-based YAML editor with no sign-up.",
       "heading": "YAML Formatter & Editor",
-      "kind": "application"
+      "kind": "application",
+      "content": {
+        "about": "Format, edit and validate YAML configuration files with comment-aware parsing and clear syntax feedback. Anchors, aliases and YAML-specific structure remain intact because documents are not converted to JSON. Processing stays in your browser.",
+        "features": ["Comment-preserving YAML formatting", "Anchors and aliases", "Line-aware YAML validation", "YAML document model"],
+        "instructions": ["Paste YAML or upload a .yaml or .yml file.", "Select an indentation size, then choose Format or Validate.", "Review the result before copying or downloading the YAML document."],
+        "faqs": [
+          { "question": "What does a YAML formatter do?", "answer": "It applies consistent indentation and spacing to make YAML configuration files easier to read and maintain." },
+          { "question": "Can I validate YAML syntax online?", "answer": "Yes. Validate checks the document and reports useful line information for syntax errors when available." },
+          { "question": "Are YAML comments preserved?", "answer": "Yes. Formatting uses the YAML document model rather than converting the document to JSON." },
+          { "question": "Does the editor resolve YAML aliases?", "answer": "No. Anchors and aliases remain YAML syntax and are not flattened." },
+          { "question": "Is my YAML uploaded?", "answer": "No. Editing, validation and formatting happen locally in your browser." }
+        ]
+      }
     },
     "xml": {
       "path": "/xml-formatter",
       "title": "XML Formatter & Editor Online | DevMaster Tools",
-      "description": "Format, validate, edit and safely minify XML in your browser with namespace, CDATA and comment support.",
+      "description": "Format, edit, validate, beautify and safely minify XML online with namespace, CDATA and comment support. No sign-up required.",
       "heading": "XML Formatter & Editor",
-      "kind": "application"
+      "kind": "application",
+      "content": {
+        "about": "Format, edit, validate, beautify and safely minify XML documents while preserving namespaces, comments and CDATA sections. Destructive whitespace changes are blocked for mixed-content XML, and external resources are never fetched.",
+        "features": ["Namespace-preserving XML formatting", "CDATA and comment support", "Safe XML minification checks", "Malformed XML detection"],
+        "instructions": ["Paste XML or upload an .xml file.", "Validate before formatting or minifying the document.", "Review the formatted XML, then copy or download the result."],
+        "faqs": [
+          { "question": "What is an XML formatter?", "answer": "An XML formatter adds consistent indentation and line breaks so elements and attributes are easier to inspect." },
+          { "question": "Can I validate XML syntax?", "answer": "Yes. The validator detects malformed XML and reports parsing errors without sending the document to a server." },
+          { "question": "Does the XML validator fetch DTDs?", "answer": "No. DevMaster Tools never fetches external XML resources." },
+          { "question": "Why can XML minification be refused?", "answer": "Whitespace can be meaningful in mixed-content XML, so destructive transformations are blocked when safety cannot be guaranteed." },
+          { "question": "Is my XML uploaded?", "answer": "No. XML processing happens locally in your browser." }
+        ]
+      }
     },
     "sql": {
       "path": "/sql-formatter",
-      "title": "SQL Formatter Online | DevMaster Tools",
-      "description": "Format SQL queries in your browser with dialect and keyword-case options for MySQL, PostgreSQL, SQL Server, SQLite and more.",
+      "title": "SQL Formatter & Beautifier Online | DevMaster Tools",
+      "description": "Format and beautify SQL queries online with syntax highlighting, keyword-case controls and support for MySQL, PostgreSQL, SQL Server and SQLite.",
       "heading": "SQL Formatter",
-      "kind": "application"
+      "kind": "application",
+      "content": {
+        "about": "Format and beautify SQL queries, CTEs, joins and multiple statements with syntax highlighting and keyword-case controls. Choose Standard SQL, MySQL, MariaDB, PostgreSQL, SQL Server or SQLite formatting without connecting to a database or executing a query.",
+        "features": ["Six SQL dialect options", "SQL keyword casing", "CTEs, joins and subqueries", "Multiple SQL statements"],
+        "instructions": ["Paste SQL or upload a .sql file.", "Choose the closest SQL dialect and keyword style.", "Format and review the query, then copy or download it."],
+        "faqs": [
+          { "question": "What does a SQL formatter do?", "answer": "It applies consistent spacing, indentation and keyword layout so SQL queries are easier to read and review." },
+          { "question": "Which SQL dialects are supported?", "answer": "The formatter includes Standard SQL, MySQL, MariaDB, PostgreSQL, SQL Server or T-SQL, and SQLite options." },
+          { "question": "Does DevMaster Tools run my SQL query?", "answer": "Never. This tool only formats text and has no database connection." },
+          { "question": "Does formatting prove SQL is valid?", "answer": "No. Formatting can detect some syntax problems, but it is not a complete dialect-aware SQL validator." },
+          { "question": "Is my SQL query uploaded?", "answer": "No. SQL formatting happens entirely in your browser." }
+        ]
+      }
     },
     "markdown": {
       "path": "/markdown-editor",
       "title": "Markdown Editor & Live Preview | DevMaster Tools",
-      "description": "Edit and format GitHub Flavored Markdown with a secure live preview for tables, task lists and code blocks.",
+      "description": "Write, format and preview Markdown online with a safe live renderer for GitHub Flavored Markdown, tables, task lists and code blocks.",
       "heading": "Markdown Editor & Preview",
-      "kind": "application"
+      "kind": "application",
+      "content": {
+        "about": "Write, format and preview GitHub Flavored Markdown in real time. Use editor, split or preview modes for documentation containing headings, tables, task lists and fenced code blocks. The rendered preview is sanitized and processing stays in your browser.",
+        "features": ["Live GitHub Flavored Markdown preview", "Sanitized Markdown rendering", "Tables and task lists", "Editor, split and preview modes"],
+        "instructions": ["Write Markdown or upload a .md or .markdown file.", "Use split, editor-only or preview-only mode while reviewing the document.", "Format the Markdown before copying or downloading it."],
+        "faqs": [
+          { "question": "What is a live Markdown editor?", "answer": "It lets you edit Markdown source and see the rendered result update alongside it." },
+          { "question": "Does the preview support GitHub Flavored Markdown?", "answer": "Yes. The preview supports common GFM features including tables, task lists and fenced code blocks." },
+          { "question": "Can Markdown run scripts?", "answer": "No. Raw HTML is disabled and rendered output is sanitized." },
+          { "question": "Are fenced code blocks reformatted?", "answer": "No. Their contents are preserved by the Markdown formatter." },
+          { "question": "Is my Markdown uploaded?", "answer": "No. Editing, formatting and preview rendering happen locally in your browser." }
+        ]
+      }
     },
     "about": {
       "path": "/about",
@@ -69,6 +129,13 @@
       "title": "Contact | DevMaster Tools",
       "description": "Contact DevMaster Tools with questions, suggestions or reports about the online developer utilities.",
       "heading": "Get in Touch",
+      "kind": "page"
+    },
+    "support": {
+      "path": "/support",
+      "title": "Support DevMaster Tools",
+      "description": "Support the independent development and maintenance of DevMaster Tools while keeping its browser-based developer tools free for everyone.",
+      "heading": "Support DevMaster Tools",
       "kind": "page"
     }
   }

@@ -16,6 +16,7 @@ export interface ToolDefinition {
   filename: string
   example: string
   icon: LucideIcon
+  about: string
   features: string[]
   instructions: string[]
   faqs: { question: string; answer: string }[]

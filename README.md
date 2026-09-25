@@ -96,6 +96,18 @@ VITE_GA4_MEASUREMENT_ID=G-XXXXXXXXXX
 
 The Google tag is configured with `send_page_view: false`; `AnalyticsManager` sends sanitized page views containing only origin and pathname. Analytics and advertising storage, advertising signals, user data, and personalization remain denied. Google therefore receives cookieless measurement requests rather than a stored `_ga` client identifier. Verify navigation and custom events in GA4 Realtime or DebugView after deploying.
 
+## Support links
+
+Support destinations and their availability flags live together in `src/app/config.ts`. Buy Me a Coffee is currently enabled and points to `https://buymeacoffee.com/etonadev`. GitHub Sponsors remains configured but disabled because `https://github.com/sponsors/etonadev` currently redirects to the normal profile instead of serving a public sponsorship page.
+
+After GitHub approves and publishes the sponsorship profile:
+
+1. Verify the public sponsorship URL while signed out.
+2. Set `SUPPORT_OPTIONS.githubSponsors.enabled` to `true`.
+3. Add `github: etonadev` to `.github/FUNDING.yml` without removing the existing custom Buy Me a Coffee entry.
+
+The support page uses ordinary external links. Payments, account details, and checkout are handled entirely by the donation platform; the application does not collect them.
+
 ## Project structure
 
 ```text
@@ -145,7 +157,7 @@ The application is fully static and does not require Workers, a database, paid s
 
 ## Adding a tool
 
-1. Add its metadata and example to `src/app/config.ts`.
+1. Add its registry data and example to `src/app/config.ts`, and its visible help content and metadata to `src/app/seo.json`.
 2. Put parser/formatter logic in `src/services/formatting` with typed results and independent tests.
 3. Add the processor to `features/shared/ToolPage.tsx`. Reuse the shared toolbar, file safeguards, editor, status bar, and content patterns.
 4. Add a lazy route in `src/app/routes.tsx` and a metadata entry in `src/app/seo.json`; the prerenderer derives route HTML and the sitemap from that metadata.

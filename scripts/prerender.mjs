@@ -8,6 +8,7 @@ const siteUrl = (process.env.VITE_SITE_URL || env.VITE_SITE_URL || seo.site.url)
 const productName = process.env.VITE_PRODUCT_NAME || env.VITE_PRODUCT_NAME || seo.site.name
 const imageUrl = `${siteUrl}${seo.site.imagePath}`
 const template = await readFile('dist/index.html', 'utf8')
+const freeOffer = { '@type': 'Offer', price: '0', priceCurrency: 'USD' }
 
 function escapeHtml(value) {
   return value.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
@@ -25,12 +26,12 @@ function structuredData(page) {
       '@context': 'https://schema.org',
       '@graph': [
         { '@type': 'WebSite', '@id': websiteId, name: productName, url, description: page.description, inLanguage: seo.site.language },
-        { '@type': 'WebApplication', name: productName, url, description: page.description, applicationCategory: 'DeveloperApplication', operatingSystem: 'Any', browserRequirements: 'Requires a modern web browser', isAccessibleForFree: true, isPartOf: { '@id': websiteId } },
+        { '@type': 'WebApplication', name: productName, url, description: page.description, applicationCategory: 'DeveloperApplication', operatingSystem: 'Any', browserRequirements: 'Requires a modern web browser', isAccessibleForFree: true, offers: freeOffer, isPartOf: { '@id': websiteId } },
       ],
     }
   }
   if (page.kind === 'application') {
-    return { '@context': 'https://schema.org', '@type': 'WebApplication', name: page.heading, url, description: page.description, applicationCategory: 'DeveloperApplication', operatingSystem: 'Any', browserRequirements: 'Requires a modern web browser', isAccessibleForFree: true, isPartOf: { '@id': websiteId } }
+    return { '@context': 'https://schema.org', '@type': 'WebApplication', name: page.heading, url, description: page.description, applicationCategory: 'DeveloperApplication', operatingSystem: 'Any', browserRequirements: 'Requires a modern web browser', isAccessibleForFree: true, offers: freeOffer, isPartOf: { '@id': websiteId } }
   }
   return { '@context': 'https://schema.org', '@type': 'WebPage', name: page.title, url, description: page.description, inLanguage: seo.site.language, isPartOf: { '@id': websiteId } }
 }
@@ -66,7 +67,8 @@ function metadataBlock(page) {
 
 function staticContent(page) {
   const toolLinks = page.path === '/' ? '<nav aria-label="Developer tools"><a href="/json-formatter">JSON Formatter</a> <a href="/yaml-formatter">YAML Formatter</a> <a href="/xml-formatter">XML Formatter</a> <a href="/sql-formatter">SQL Formatter</a> <a href="/markdown-editor">Markdown Editor</a></nav>' : ''
-  return `<main data-static-seo="true"><h1>${escapeHtml(page.heading)}</h1><p>${escapeHtml(page.description)}</p>${toolLinks}</main>`
+  const content = page.content ? `<section><h2>About the ${escapeHtml(page.heading)}</h2><p>${escapeHtml(page.content.about)}</p><ul>${page.content.features.map((feature) => `<li>${escapeHtml(feature)}</li>`).join('')}</ul></section><section><h2>How to use the ${escapeHtml(page.heading)}</h2><ol>${page.content.instructions.map((instruction) => `<li>${escapeHtml(instruction)}</li>`).join('')}</ol></section><section><h2>Frequently Asked Questions</h2>${page.content.faqs.map((faq) => `<article><h3>${escapeHtml(faq.question)}</h3><p>${escapeHtml(faq.answer)}</p></article>`).join('')}</section>` : ''
+  return `<main data-static-seo="true"><h1>${escapeHtml(page.heading)}</h1><p>${escapeHtml(page.description)}</p>${toolLinks}${content}</main>`
 }
 
 function renderPage(page) {

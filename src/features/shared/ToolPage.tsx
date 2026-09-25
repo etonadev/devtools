@@ -128,9 +128,9 @@ export function ToolPage({ id }: { id: ToolId }) {
       <div className={`status-bar ${notice.kind}`} role={notice.kind === 'error' ? 'alert' : 'status'}>{statusIcon}<span>{notice.message}{notice.line ? ` Line ${notice.line}${notice.column ? `, column ${notice.column}` : ''}.` : ''}</span></div>
     </section>
     {!fullscreen && <section className="tool-content">
-      <div><p className="eyebrow">What it handles</p><h2>Built for real documents</h2><ul className="feature-list">{tool.features.map((feature) => <li key={feature}><CheckCircle2 size={17} />{feature}</li>)}</ul></div>
-      <div><p className="eyebrow">How to use it</p><h2>From paste to polished</h2><ol className="steps">{tool.instructions.map((instruction, index) => <li key={instruction}><span>{index + 1}</span>{instruction}</li>)}</ol></div>
+      <div><p className="eyebrow">What it does</p><h2>About the {tool.name}</h2><p className="tool-about">{tool.about}</p><ul className="feature-list">{tool.features.map((feature) => <li key={feature}><CheckCircle2 size={17} />{feature}</li>)}</ul></div>
+      <div><p className="eyebrow">How to use it</p><h2>How to use the {tool.shortName} tool</h2><ol className="steps">{tool.instructions.map((instruction, index) => <li key={instruction}><span>{index + 1}</span>{instruction}</li>)}</ol></div>
     </section>}
-    {!fullscreen && <section className="faq-section"><p className="eyebrow">FAQ</p><h2>{tool.shortName} formatter questions</h2><div className="faq-grid">{tool.faqs.map((faq) => <details key={faq.question}><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}</div><div className="related"><span>Related tools</span>{related.map((item) => <Link key={item.id} to={item.path}>{item.shortName}<span aria-hidden>↗</span></Link>)}</div></section>}
+    {!fullscreen && <section className="faq-section"><p className="eyebrow">{tool.shortName} help</p><h2>Frequently Asked Questions</h2><div className="faq-grid">{tool.faqs.map((faq) => <details key={faq.question}><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}</div><div className="related"><span>Related tools</span>{related.map((item) => <Link key={item.id} to={item.path}>{item.shortName}<span aria-hidden>↗</span></Link>)}</div></section>}
   </main>
 }
