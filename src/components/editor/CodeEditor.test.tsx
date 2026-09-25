@@ -36,6 +36,7 @@ describe('CodeEditor view-state stability', () => {
     const onChange = vi.fn()
     const { rerender } = render(<CodeEditor value="large document" onChange={onChange} language="json" label="Input" wordWrap indent={2} />)
     const initialProps = mocks.state.props.at(-1)
+    expect(initialProps?.options).toEqual(expect.objectContaining({ stickyScroll: { enabled: false } }))
     mocks.editor.updateOptions.mockClear()
     mocks.editor.setValue.mockClear()
     mocks.editor.restoreViewState.mockClear()

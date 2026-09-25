@@ -22,6 +22,7 @@ const baseEditorOptions = {
   lineNumbersMinChars: 3,
   bracketPairColorization: { enabled: true },
   matchBrackets: 'always' as const,
+  stickyScroll: { enabled: false },
   scrollBeyondLastLine: false,
   padding: { top: 12, bottom: 12 },
 }
